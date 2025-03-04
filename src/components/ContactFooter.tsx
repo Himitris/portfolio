@@ -2,8 +2,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { AnimatedSection, fadeIn } from './animations';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Contact: React.FC = () => {
+    const { t } = useLanguage();
+
     return (
         <AnimatedSection id="contact" className="py-16 bg-white relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -18,7 +21,7 @@ export const Contact: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        Contact
+                        {t('contact')}
                     </motion.h2>
                     <motion.p
                         className="mt-2 text-3xl leading-8 font-extrabold tracking-tight bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent sm:text-4xl"
@@ -27,7 +30,7 @@ export const Contact: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                     >
-                        Get In Touch
+                        {t('getInTouch')}
                     </motion.p>
                     <motion.p
                         className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto"
@@ -36,7 +39,7 @@ export const Contact: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                        Interested in working together? Feel free to reach out.
+                        {t('contactDescription')}
                     </motion.p>
                 </motion.div>
 
@@ -56,7 +59,7 @@ export const Contact: React.FC = () => {
                             transition={{ duration: 0.5 }}
                         >
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                Name
+                                {t('name')}
                             </label>
                             <div className="mt-1 relative">
                                 <motion.input
@@ -65,7 +68,7 @@ export const Contact: React.FC = () => {
                                     id="name"
                                     autoComplete="name"
                                     className="py-3 px-4 block w-full shadow-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-white/70"
-                                    placeholder="Your name"
+                                    placeholder={t('yourName')}
                                     whileFocus={{ scale: 1.01, boxShadow: "0 0 0 2px rgba(99, 102, 241, 0.2)" }}
                                 />
                                 <motion.span
@@ -84,7 +87,7 @@ export const Contact: React.FC = () => {
                             transition={{ duration: 0.5, delay: 0.1 }}
                         >
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Email
+                                {t('email')}
                             </label>
                             <div className="mt-1 relative">
                                 <motion.input
@@ -93,7 +96,7 @@ export const Contact: React.FC = () => {
                                     type="email"
                                     autoComplete="email"
                                     className="py-3 px-4 block w-full shadow-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-white/70"
-                                    placeholder="your.email@example.com"
+                                    placeholder={t('yourEmail')}
                                     whileFocus={{ scale: 1.01, boxShadow: "0 0 0 2px rgba(99, 102, 241, 0.2)" }}
                                 />
                                 <motion.span
@@ -112,7 +115,7 @@ export const Contact: React.FC = () => {
                             transition={{ duration: 0.5, delay: 0.2 }}
                         >
                             <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                                Message
+                                {t('message')}
                             </label>
                             <div className="mt-1 relative">
                                 <motion.textarea
@@ -120,7 +123,7 @@ export const Contact: React.FC = () => {
                                     name="message"
                                     rows={4}
                                     className="py-3 px-4 block w-full shadow-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-white/70"
-                                    placeholder="Your message"
+                                    placeholder={t('yourMessage')}
                                     whileFocus={{ scale: 1.01, boxShadow: "0 0 0 2px rgba(99, 102, 241, 0.2)" }}
                                 />
                                 <motion.span
@@ -144,7 +147,7 @@ export const Contact: React.FC = () => {
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                             >
-                                <span className="relative z-10">Send Message</span>
+                                <span className="relative z-10">{t('sendMessage')}</span>
                                 <motion.span
                                     className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600"
                                     initial={{ x: "100%" }}
@@ -185,6 +188,8 @@ export const Contact: React.FC = () => {
 };
 
 export const Footer: React.FC = () => {
+    const { t } = useLanguage();
+
     return (
         <motion.footer
             className="bg-gradient-to-r from-gray-800 to-gray-900 relative overflow-hidden"
@@ -202,7 +207,7 @@ export const Footer: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h2 className="text-white text-lg font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Portfolio</h2>
+                        <h2 className="text-white text-lg font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">{t('portfolio')}</h2>
                     </motion.div>
                     <motion.div
                         className="mt-8 md:mt-0"
@@ -213,7 +218,7 @@ export const Footer: React.FC = () => {
                     >
                         <div className="flex space-x-6">
                             <motion.a
-                                href="#"
+                                href="https://github.com/Himitris"
                                 className="text-gray-400 hover:text-white relative group"
                                 whileHover={{ scale: 1.2, rotate: 5 }}
                                 whileTap={{ scale: 0.9 }}
@@ -224,7 +229,7 @@ export const Footer: React.FC = () => {
                                 />
                             </motion.a>
                             <motion.a
-                                href="#"
+                                href="https://www.linkedin.com/in/antoine-gautier-8aa492151/"
                                 className="text-gray-400 hover:text-white relative group"
                                 whileHover={{ scale: 1.2, rotate: 5 }}
                                 whileTap={{ scale: 0.9 }}
@@ -235,7 +240,7 @@ export const Footer: React.FC = () => {
                                 />
                             </motion.a>
                             <motion.a
-                                href="#"
+                                href="mailto:antoine.gautier83@gmail.com"
                                 className="text-gray-400 hover:text-white relative group"
                                 whileHover={{ scale: 1.2, rotate: 5 }}
                                 whileTap={{ scale: 0.9 }}
@@ -261,7 +266,7 @@ export const Footer: React.FC = () => {
                             className="text-gray-400 hover:text-gray-300 relative group"
                             whileHover={{ x: 2 }}
                         >
-                            Privacy Policy
+                            {t('privacyPolicy')}
                             <motion.span
                                 className="absolute -bottom-1 left-0 w-full h-0.5 bg-indigo-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
                             />
@@ -271,14 +276,14 @@ export const Footer: React.FC = () => {
                             className="text-gray-400 hover:text-gray-300 relative group"
                             whileHover={{ x: 2 }}
                         >
-                            Terms of Service
+                            {t('termsOfService')}
                             <motion.span
                                 className="absolute -bottom-1 left-0 w-full h-0.5 bg-indigo-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
                             />
                         </motion.a>
                     </div>
                     <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
-                        &copy; {new Date().getFullYear()} Portfolio. All rights reserved.
+                        &copy; {new Date().getFullYear()} Antoine Gautier. {t('allRightsReserved')}
                     </p>
                 </motion.div>
             </div>

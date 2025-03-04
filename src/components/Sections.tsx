@@ -1,45 +1,116 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Code, Zap, Palette, Sparkles } from 'lucide-react';
 import { AnimatedSection, projectCardVariants, staggerContainer, fadeIn, navItemVariants } from './animations';
+import { useLanguage } from '../context/LanguageContext';
+import ProjectModal, { ProjectDetail } from './ProjectModal';
 
-// Project data
-const projects = [
+// Données détaillées des projets
+const getProjects = (t: any): ProjectDetail[] => [
     {
         id: 1,
-        title: "E-commerce Platform",
-        description: "A fully responsive e-commerce website with product filtering, cart functionality, and secure checkout.",
+        title: t('ecommerceTitle'),
+        description: t('ecommerceDesc'),
+        fullDescription: "Cette plateforme e-commerce complète offre une expérience d'achat fluide avec une interface utilisateur moderne et responsive. Elle intègre des fonctionnalités avancées de filtrage de produits, un panier d'achat dynamique et un processus de paiement sécurisé.",
         image: "https://images.unsplash.com/photo-1661956602116-aa6865609028?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80",
         tags: ["React", "Node.js", "MongoDB", "Stripe"],
-        icon: <Code size={24} />
+        icon: <Code size={24} />,
+        challenge: "Créer une plateforme e-commerce complète qui offre une expérience utilisateur fluide, des performances optimales et une sécurité des paiements, tout en permettant une gestion facile des produits pour les administrateurs.",
+        solution: "J'ai développé une application React pour le frontend avec Redux pour la gestion d'état, associée à une API Node.js/Express pour le backend. MongoDB a été choisi pour sa flexibilité dans la gestion des données de produits, tandis que Stripe a été intégré pour les paiements sécurisés.",
+        features: [
+            "Filtrage avancé des produits par catégorie, prix et attributs",
+            "Système de panier persistant avec localStorage",
+            "Authentification JWT avec gestion des rôles",
+            "Paiements sécurisés via Stripe",
+            "Tableau de bord administrateur pour la gestion des produits et des commandes",
+            "Conception responsive pour une expérience optimale sur tous les appareils"
+        ],
+        demoLink: "https://example.com/ecommerce-demo",
+        githubLink: "https://github.com/username/ecommerce-project",
+        images: [
+            "https://images.unsplash.com/photo-1571431253908-43fdad7b3077?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+            "https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
+        ]
     },
     {
         id: 2,
-        title: "Portfolio Website",
-        description: "A personal portfolio website showcasing projects and skills with a modern, minimalist design.",
+        title: t('portfolioTitle'),
+        description: t('portfolioDesc'),
+        fullDescription: "Ce portfolio personnel présente mes projets et compétences avec un design moderne et minimaliste. Il met en valeur mon travail tout en offrant une navigation intuitive et une expérience utilisateur agréable.",
         image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=755&q=80",
         tags: ["React", "Tailwind CSS", "Framer Motion"],
-        icon: <Palette size={24} />
+        icon: <Palette size={24} />,
+        challenge: "Concevoir un portfolio qui me démarque tout en présentant mes projets et compétences de manière claire et attrayante.",
+        solution: "J'ai développé un site React avec Tailwind CSS pour un design épuré et Framer Motion pour des animations fluides. L'interface est conçue pour mettre en valeur mes projets tout en étant agréable à parcourir.",
+        features: [
+            "Design responsive et moderne",
+            "Animations subtiles pour améliorer l'expérience utilisateur",
+            "Sections de projets détaillées avec modals",
+            "Formulaire de contact fonctionnel",
+            "Support multilingue (français et anglais)"
+        ],
+        demoLink: "https://portfolio-demo.example.com",
+        githubLink: "https://github.com/username/portfolio",
+        images: [
+            "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1426&q=80"
+        ]
     },
     {
         id: 3,
-        title: "Task Management App",
-        description: "A productivity application for managing tasks, projects, and deadlines with team collaboration features.",
+        title: t('taskTitle'),
+        description: t('taskDesc'),
+        fullDescription: "Cette application de gestion de tâches améliore la productivité en permettant aux utilisateurs de gérer leurs projets, tâches et échéances. Elle intègre des fonctionnalités de collaboration d'équipe pour faciliter le travail en groupe.",
         image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80",
         tags: ["React", "Firebase", "Material UI"],
-        icon: <Zap size={24} />
+        icon: <Zap size={24} />,
+        challenge: "Développer une application de gestion de tâches intuitive qui permet aux équipes de collaborer efficacement et de suivre la progression des projets en temps réel.",
+        solution: "J'ai créé une application React avec Firebase pour la base de données en temps réel et l'authentification. Material UI a été utilisé pour un design cohérent et une expérience utilisateur fluide.",
+        features: [
+            "Création et organisation de tâches avec système de drag-and-drop",
+            "Tableaux de bord personnalisables avec statistiques",
+            "Notifications et rappels d'échéances",
+            "Commentaires et pièces jointes sur les tâches",
+            "Partage de projets et attribution de tâches",
+            "Mode hors ligne avec synchronisation"
+        ],
+        demoLink: "https://taskmanager.example.com",
+        githubLink: "https://github.com/username/task-manager",
+        images: [
+            "https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+            "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+        ]
     },
     {
         id: 4,
-        title: "Restaurant Booking System",
-        description: "An online reservation system for restaurants with table management and customer notifications.",
+        title: t('restaurantTitle'),
+        description: t('restaurantDesc'),
+        fullDescription: "Ce système de réservation en ligne pour restaurants permet la gestion des tables et l'envoi de notifications aux clients. Il aide les restaurants à optimiser leur capacité et à améliorer l'expérience client.",
         image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
         tags: ["Next.js", "Prisma", "PostgreSQL", "Twilio"],
-        icon: <Sparkles size={24} />
+        icon: <Sparkles size={24} />,
+        challenge: "Créer un système de réservation fiable qui permette aux restaurants de gérer efficacement leurs tables tout en offrant une expérience de réservation simple pour les clients.",
+        solution: "J'ai développé une application Next.js avec une architecture serveur pour les performances, Prisma comme ORM avec PostgreSQL pour la gestion des données, et Twilio pour les notifications par SMS aux clients.",
+        features: [
+            "Interface de réservation intuitive avec sélection visuelle des tables",
+            "Confirmation automatique par SMS et email",
+            "Tableau de bord administrateur pour la gestion des réservations",
+            "Personnalisation des tables et des plans de salle",
+            "Système de liste d'attente pour les périodes d'affluence",
+            "Rapports et analyses sur les tendances de réservation"
+        ],
+        demoLink: "https://reservation-demo.example.com",
+        githubLink: "https://github.com/username/restaurant-booking",
+        images: [
+            "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+            "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+        ]
     },
 ];
 
 export const About: React.FC = () => {
+    const { t } = useLanguage();
+
     return (
         <AnimatedSection id="about" className="py-16 bg-white relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -54,7 +125,7 @@ export const About: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        About Me
+                        {t('aboutMe')}
                     </motion.h2>
                     <motion.p
                         className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent"
@@ -63,7 +134,7 @@ export const About: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                     >
-                        Passionate Web Developer
+                        {t('passionateWebDeveloper')}
                     </motion.p>
                     <motion.p
                         className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto"
@@ -72,7 +143,7 @@ export const About: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                        With expertise in modern web technologies and a keen eye for design, I create engaging digital experiences.
+                        {t('aboutDescription')}
                     </motion.p>
                 </motion.div>
 
@@ -100,12 +171,12 @@ export const About: React.FC = () => {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
                         >
-                            <h3 className="text-2xl font-bold text-gray-900">My Journey</h3>
+                            <h3 className="text-2xl font-bold text-gray-900">{t('myJourney')}</h3>
                             <p className="mt-4 text-lg text-gray-600">
-                                With over 5 years of experience in web development, I've worked on a variety of projects from e-commerce platforms to complex web applications. My approach combines technical expertise with creative problem-solving to deliver solutions that exceed expectations.
+                                {t('journeyDescription1')}
                             </p>
                             <p className="mt-4 text-lg text-gray-600">
-                                I specialize in front-end development using React, Vue.js, and modern CSS frameworks, complemented by back-end skills in Node.js and database management.
+                                {t('journeyDescription2')}
                             </p>
                             <motion.div
                                 className="mt-8"
@@ -114,7 +185,7 @@ export const About: React.FC = () => {
                                 viewport={{ once: true }}
                                 variants={staggerContainer}
                             >
-                                <h4 className="text-lg font-semibold text-gray-900">Skills</h4>
+                                <h4 className="text-lg font-semibold text-gray-900">{t('skills')}</h4>
                                 <div className="mt-2 flex flex-wrap gap-2">
                                     {["React", "TypeScript", "Node.js", "Tailwind CSS", "Next.js", "MongoDB", "PostgreSQL", "UI/UX Design"].map((skill, index) => (
                                         <motion.span
@@ -148,6 +219,25 @@ export const About: React.FC = () => {
 };
 
 export const Projects: React.FC = () => {
+    const { t } = useLanguage();
+    const projects = getProjects(t);
+
+    // État pour le modal
+    const [selectedProject, setSelectedProject] = useState<ProjectDetail | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Ouvrir le modal avec le projet sélectionné
+    const openProjectDetails = (project: ProjectDetail) => {
+        setSelectedProject(project);
+        setIsModalOpen(true);
+    };
+
+    // Fermer le modal
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setTimeout(() => setSelectedProject(null), 300); // Attendre la fin de l'animation
+    };
+
     return (
         <AnimatedSection id="projects" className="py-16 bg-gray-50 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -162,7 +252,7 @@ export const Projects: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        Portfolio
+                        {t('portfolio')}
                     </motion.h2>
                     <motion.p
                         className="mt-2 text-3xl leading-8 font-extrabold tracking-tight bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent sm:text-4xl"
@@ -171,7 +261,7 @@ export const Projects: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                     >
-                        Featured Projects
+                        {t('featuredProjects')}
                     </motion.p>
                     <motion.p
                         className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto"
@@ -180,7 +270,7 @@ export const Projects: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                        A selection of my recent work showcasing my skills and expertise.
+                        {t('projectsDescription')}
                     </motion.p>
                 </motion.div>
 
@@ -194,10 +284,11 @@ export const Projects: React.FC = () => {
                     {projects.map((project, index) => (
                         <motion.div
                             key={project.id}
-                            className="bg-white overflow-hidden rounded-xl shadow-lg group"
+                            className="bg-white overflow-hidden rounded-xl shadow-lg group cursor-pointer"
                             variants={projectCardVariants}
                             whileHover="hover"
                             custom={index}
+                            onClick={() => openProjectDetails(project)}
                         >
                             <div className="h-48 w-full overflow-hidden relative">
                                 <motion.div
@@ -232,23 +323,29 @@ export const Projects: React.FC = () => {
                                     ))}
                                 </div>
                                 <div className="mt-6">
-                                    <motion.a
-                                        href="#"
+                                    <motion.span
                                         className="inline-flex items-center text-indigo-600 hover:text-indigo-800 relative overflow-hidden group"
                                         whileHover={{ x: 5 }}
                                         whileTap={{ scale: 0.95 }}
                                     >
-                                        <span>View Project</span>
+                                        <span>{t('viewDetails')}</span>
                                         <ExternalLink size={16} className="ml-1" />
                                         <motion.span
                                             className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
                                         />
-                                    </motion.a>
+                                    </motion.span>
                                 </div>
                             </div>
                         </motion.div>
                     ))}
                 </motion.div>
+
+                {/* Modal pour les détails du projet */}
+                <ProjectModal
+                    project={selectedProject}
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                />
             </div>
 
             {/* Background decoration */}

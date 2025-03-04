@@ -1,12 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { AnimatedCharacters, MagneticButton, staggerContainer, heroTextVariants, fadeIn } from './animations';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeroProps {
     scrollToSection: (sectionId: string) => void;
 }
 
 const Hero: React.FC<HeroProps> = ({ scrollToSection }) => {
+    const { t } = useLanguage();
+    
     return (
         <section className="relative bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-700 py-20 sm:py-24 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -21,7 +24,7 @@ const Hero: React.FC<HeroProps> = ({ scrollToSection }) => {
                         variants={heroTextVariants}
                     >
                         <AnimatedCharacters
-                            text="Creative Developer"
+                            text={t('creativeDeveloper')}
                             className="inline-flex text-white justify-center"
                         />
                     </motion.div>
@@ -30,7 +33,7 @@ const Hero: React.FC<HeroProps> = ({ scrollToSection }) => {
                         variants={heroTextVariants}
                     >
                         <AnimatedCharacters
-                            text="Crafting Digital Experiences"
+                            text={t('craftingDigitalExperiences')}
                             className="inline-flex text-indigo-200 justify-center"
                         />
                     </motion.div>
@@ -38,7 +41,7 @@ const Hero: React.FC<HeroProps> = ({ scrollToSection }) => {
                         className="mt-6 max-w-2xl mx-auto text-xl text-indigo-100"
                         variants={heroTextVariants}
                     >
-                        I design and build modern websites and applications that deliver exceptional user experiences.
+                        {t('heroDescription')}
                     </motion.p>
                     <motion.div
                         className="mt-10 flex justify-center"
@@ -51,7 +54,7 @@ const Hero: React.FC<HeroProps> = ({ scrollToSection }) => {
                             <motion.span
                                 whileHover={{ scale: 1.05 }}
                             >
-                                View Projects
+                                {t('viewProjects')}
                             </motion.span>
                         </MagneticButton>
                         <MagneticButton
@@ -62,7 +65,7 @@ const Hero: React.FC<HeroProps> = ({ scrollToSection }) => {
                                 whileHover={{ scale: 1.05 }}
                                 className="relative z-10"
                             >
-                                Contact Me
+                                {t('contactMe')}
                             </motion.span>
                             <motion.div
                                 className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"

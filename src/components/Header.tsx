@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Github, Linkedin, Mail, Menu, X } from 'lucide-react';
+import { Github, Linkedin, Mail, Menu, X, Globe } from 'lucide-react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { staggerContainer, navItemVariants } from './animations';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeaderProps {
     scrollToSection: (sectionId: string) => void;
@@ -15,6 +16,9 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
         damping: 30,
         restDelta: 0.001
     });
+
+    // Utilisation du contexte de langue
+    const { language, toggleLanguage, t } = useLanguage();
 
     const handleNavClick = (sectionId: string) => {
         scrollToSection(sectionId);
@@ -39,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text">Portfolio</h1>
+                        <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text">{t('portfolio')}</h1>
                     </motion.div>
 
                     {/* Desktop Navigation */}
@@ -54,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                             onClick={() => handleNavClick('about')}
                             className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium cursor-pointer relative group"
                         >
-                            About
+                            {t('about')}
                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 group-hover:w-full transition-all duration-300"></span>
                         </motion.a>
                         <motion.a
@@ -62,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                             onClick={() => handleNavClick('projects')}
                             className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium cursor-pointer relative group"
                         >
-                            Projects
+                            {t('projects')}
                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 group-hover:w-full transition-all duration-300"></span>
                         </motion.a>
                         <motion.a
@@ -70,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                             onClick={() => handleNavClick('contact')}
                             className="text-gray-600 hover:text-gray-900 px-3 py-2 text-sm font-medium cursor-pointer relative group"
                         >
-                            Contact
+                            {t('contact')}
                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 group-hover:w-full transition-all duration-300"></span>
                         </motion.a>
                     </motion.nav>
@@ -82,8 +86,23 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                         animate="visible"
                         variants={staggerContainer}
                     >
+                        {/* Bouton de changement de langue */}
+                        <motion.button
+                            className="text-gray-500 hover:text-gray-700 relative group flex items-center space-x-1"
+                            variants={navItemVariants}
+                            whileHover={{ scale: 1.2 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={toggleLanguage}
+                        >
+                            <Globe size={20} />
+                            <span className="text-sm">{language.toUpperCase()}</span>
+                            <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                                {language === 'fr' ? 'English' : 'Français'}
+                            </span>
+                        </motion.button>
+
                         <motion.a
-                            href="#"
+                            href="https://github.com/Himitris"
                             className="text-gray-500 hover:text-gray-700 relative group"
                             variants={navItemVariants}
                             whileHover={{ scale: 1.2 }}
@@ -93,7 +112,7 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                             <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">GitHub</span>
                         </motion.a>
                         <motion.a
-                            href="#"
+                            href="https://www.linkedin.com/in/antoine-gautier-8aa492151/"
                             className="text-gray-500 hover:text-gray-700 relative group"
                             variants={navItemVariants}
                             whileHover={{ scale: 1.2 }}
@@ -103,7 +122,7 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                             <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">LinkedIn</span>
                         </motion.a>
                         <motion.a
-                            href="#"
+                            href="mailto:antoine.gautier83@gmail.com"
                             className="text-gray-500 hover:text-gray-700 relative group"
                             variants={navItemVariants}
                             whileHover={{ scale: 1.2 }}
@@ -151,7 +170,7 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: 0.1 }}
                             >
-                                About
+                                {t('about')}
                             </motion.a>
                             <motion.a
                                 onClick={() => handleNavClick('projects')}
@@ -160,7 +179,7 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: 0.2 }}
                             >
-                                Projects
+                                {t('projects')}
                             </motion.a>
                             <motion.a
                                 onClick={() => handleNavClick('contact')}
@@ -169,8 +188,21 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: 0.3 }}
                             >
-                                Contact
+                                {t('contact')}
                             </motion.a>
+                            {/* Bouton de changement de langue pour mobile */}
+                            <motion.button
+                                onClick={toggleLanguage}
+                                className="flex items-center w-full px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 cursor-pointer rounded-md"
+                                initial={{ x: -20, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: 0.4 }}
+                            >
+                                <Globe size={20} className="mr-2" />
+                                <span>
+                                    {language === 'fr' ? 'English' : 'Français'} ({language.toUpperCase()})
+                                </span>
+                            </motion.button>
                         </div>
                         <motion.div
                             className="flex justify-center space-x-6 pb-4 border-t border-gray-200 pt-4"
