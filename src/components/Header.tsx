@@ -43,6 +43,7 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5 }}
                     >
+                        <img src="/favicon.png" alt="Logo" className="h-8 w-8 mr-2" />
                         <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text">{t('portfolio')}</h1>
                     </motion.div>
 
@@ -205,10 +206,18 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                             </motion.button>
                         </div>
                         <motion.div
-                            className="flex justify-center space-x-6 pb-4 border-t border-gray-200 pt-4"
+                            className="flex flex-col items-center pb-4 border-t border-gray-200 pt-4"
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.4 }}
+                        >
+                            <img src="/favicon.png" alt="Logo" className="h-8 w-8 mb-3" />
+                        </motion.div>
+                        <motion.div
+                            className="flex justify-center space-x-6 pb-4"
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.5 }}
                         >
                             <motion.a
                                 href="#"

@@ -7,7 +7,7 @@ export type Language = 'fr' | 'en';
 export const translations = {
   fr: {
     // Header
-    portfolio: "Portfolio",
+    portfolio: "Antoine Gautier",
     about: "À propos",
     projects: "Projets",
     contact: "Contact",
@@ -72,7 +72,7 @@ export const translations = {
   
   en: {
     // Header
-    portfolio: "Portfolio",
+    portfolio: "Antoine Gautier",
     about: "About",
     projects: "Projects",
     contact: "Contact",
